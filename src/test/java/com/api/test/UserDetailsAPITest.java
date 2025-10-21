@@ -34,6 +34,5 @@ public class UserDetailsAPITest {
                 .time(lessThan(1000l))
                 .and()
                 .body(JsonSchemaValidator.matchesJsonSchemaInClasspath("response-schema/UserDEtailsResponseSchema.json"));
-
     }
 }
