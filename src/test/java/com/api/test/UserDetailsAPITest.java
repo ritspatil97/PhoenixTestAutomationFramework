@@ -30,3 +30,4 @@ public class UserDetailsAPITest {
                 .then().log().all().statusCode(200).and().time(lessThan(1000l)).and().body(JsonSchemaValidator.matchesJsonSchemaInClasspath("response-schema/UserDetailsResponseSchema.json"));
     }
 }
+
