@@ -1,16 +1,29 @@
-<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+<!--<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >-->
+<!--&lt;!&ndash;<suite name="API Test Suite">&ndash;&gt;-->
+<!--&lt;!&ndash;    <test name="Login API Test">&ndash;&gt;-->
+<!--&lt;!&ndash;        <classes>&ndash;&gt;-->
+<!--&lt;!&ndash;            <class name="com.api.test.LogInAPITest"/>&ndash;&gt;-->
+<!--&lt;!&ndash;        </classes>&ndash;&gt;-->
+<!--&lt;!&ndash;    </test>&ndash;&gt;-->
+<!--&lt;!&ndash;</suite>&ndash;&gt;-->
 <!--<suite name="API Test Suite">-->
 <!--    <test name="Login API Test">-->
-<!--        <classes>-->
-<!--            <class name="com.api.test.LogInAPITest"/>-->
-<!--        </classes>-->
+<!--        <packages>-->
+<!--            <package name="com.api.test"/>-->
+<!--        </packages>-->
 <!--    </test>-->
 <!--</suite>-->
-<suite name="API Test Suite">
-    <test name="Login API Test">
-        <packages>
-            <package name="com.api.test"/>
-        </packages>
+
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+
+<suite name="Phoenix API test Suite" verbose="1">
+    <test name="In-warranty Flow test">
+        <classes>
+            <class name="com.api.test.LogInAPITest"/>
+            <class name="com.api.test.UserDetailsAPITest"/>
+            <class name="com.api.test.CountAPITest"/>
+            <class name="com.api.test.MasterAPITest"/>
+        </classes>
     </test>
 </suite>
 
