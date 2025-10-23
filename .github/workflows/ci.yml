@@ -16,7 +16,7 @@ on:
         default: qa
         required: true
       suiteXmlFile:
-        description: "TestNG Xml FIle"
+        description: "TestNG Xml File"
         type: choice
         options: [testng.xml,smoke,regression.xml]
         default: testng.xml
