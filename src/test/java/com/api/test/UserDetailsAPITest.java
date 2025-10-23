@@ -27,6 +27,6 @@ public class UserDetailsAPITest {
         Header authHeader = new Header("Authorization", getToken(FD));
         given().baseUri(getProperty("BASE_URI")).and().header(authHeader).and().accept(JSON).log().uri().log().method().log().headers().log().body()
                 .when().get("userdetails")
-                .then().log().all().statusCode(200).and().time(lessThan(1000l)).and().body(JsonSchemaValidator.matchesJsonSchemaInClasspath("response-schema/UserDEtailsResponseSchema.json"));
+                .then().log().all().statusCode(200).and().time(lessThan(1000l)).and().body(JsonSchemaValidator.matchesJsonSchemaInClasspath("response-schema/UserDetailsResponseSchema.json"));
     }
 }
