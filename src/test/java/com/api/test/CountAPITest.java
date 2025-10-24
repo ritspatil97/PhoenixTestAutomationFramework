@@ -1,15 +1,12 @@
 package com.api.test;
 
-import static com.api.utils.AuthTokenProvider.*;
-import static com.api.utils.ConfigManager.*;
-
 import static com.api.constant.Role.*;
 import static io.restassured.RestAssured.*;
 
-import static io.restassured.http.ContentType.*;
-
 import static io.restassured.module.jsv.JsonSchemaValidator.*;
 import static org.hamcrest.Matchers.*;
+
+import com.api.utils.SpecUtil;
 import org.testng.annotations.Test;
 
 public class CountAPITest {
@@ -17,21 +14,23 @@ public class CountAPITest {
     public void verifyCountAPIResponse() {
 
         given()
-                .baseUri(getProperty("BASE_URI"))
-                .and()
-                .header("Authorization", getToken(FD))
-                .and()
-                .contentType(JSON)
-                .log().uri()
-                .log().method()
-                .log().headers()
+//                .baseUri(getProperty("BASE_URI"))
+//                .and()
+//                .header("Authorization", getToken(FD))
+//                .and()
+//                .contentType(JSON)
+//                .log().uri()
+//                .log().method()
+//                .log().headers()
+                .spec(SpecUtil.requestSpecWithAuth(FD))
         .when()
                 .get("dashboard/count")
         .then()
-                .statusCode(200)
-                .time(lessThan(3000l))
+//                .statusCode(200)
+//                .time(lessThan(3000l))
+//                .log().body()
+                .spec(SpecUtil.responseSpec_OK())
                 .body("message",equalTo("Success"))
-                .log().body()
                 .body("data",notNullValue())
                 .body("data.size()",equalTo(3))
                 .body("data.count",everyItem(greaterThanOrEqualTo(0)))
@@ -49,17 +48,19 @@ public class CountAPITest {
 @Test
     public void countAPiTest_MissingAuthToken(){
         given()
-                .baseUri(getProperty("BASE_URI"))
-                .and()
-                .contentType(JSON)
-                .log().uri()
-                .log().method()
-                .log().headers()
+//                .baseUri(getProperty("BASE_URI"))
+//                .and()
+//                .contentType(JSON)
+//                .log().uri()
+//                .log().method()
+//                .log().headers()
+                .spec(SpecUtil.requestSpec())
         .when()
                 .get("dashboard/count")
         .then()
-                .log().all()
-                .statusCode(401);
+//                .log().all()
+//                .statusCode(401);
+                .spec(SpecUtil.responseSpec_TEXT(401));
     }
 
 }
