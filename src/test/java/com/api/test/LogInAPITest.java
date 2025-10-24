@@ -2,7 +2,7 @@ package com.api.test;
 
 import com.api.pojo.UserCredentials;
 
-import static com.api.utils.ConfigManager.*;
+import com.api.utils.SpecUtil;
 import io.restassured.module.jsv.JsonSchemaValidator;
 import org.testng.annotations.Test;
 
@@ -10,36 +10,36 @@ import java.io.IOException;
 
 import static org.hamcrest.Matchers.*;
 
-import static io.restassured.http.ContentType.*;
-
 import static io.restassured.RestAssured.*;
 
 public class LogInAPITest {
 
     @Test
-    public void loginAPITest() throws IOException {
+    public void loginAPITest() {
 
         UserCredentials userCredentials = new UserCredentials("iamfd","password");
 
         given()
-                .baseUri(getProperty("BASE_URI"))
+//                .baseUri(getProperty("BASE_URI"))
+//                .and()
+//                .contentType(JSON)
+//                .accept(ANY)
+                .spec(SpecUtil.requestSpec(userCredentials))
                 .and()
-                .contentType(JSON)
-                .accept(ANY)
-                .and()
-                .body(userCredentials)
-                .log().uri()
-                .log().method()
-                .log().headers()
-                .log().body()
+       //         .body(userCredentials)
+//                .log().uri()
+//                .log().method()
+//                .log().headers()
+//                .log().body()
         .when()
                 .post("login")
         .then()
-                .log().all()
-                .statusCode(200)
-                .and()
-                .time(lessThan(4000l))
-                .and()
+//                .log().all()
+//                .statusCode(200)
+//                .and()
+//                .time(lessThan(4000l))
+//                .and()
+                .spec(SpecUtil.responseSpec_OK())
                 .body("message", equalTo("Success"))
                 .and()
                 .body("data.token",notNullValue())
