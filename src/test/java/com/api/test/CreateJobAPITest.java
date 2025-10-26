@@ -1,6 +1,6 @@
 package com.api.test;
 
-import com.api.constant.Role;
+import com.api.constant.*;
 import com.api.requestModel.*;
 import static com.api.utils.DateTimeUtility.*;
 import static com.api.utils.SpecUtil.*;
@@ -18,14 +18,16 @@ public class CreateJobAPITest {
     @Test
     public void createJobAPiTest() {
 
-        Customer customer = new Customer("Rushi", "P", "1234567890", "1234567890", "abc@yopmail.com", "abcd@yopamil.com");
+        Customer customer = new Customer("Rushi", "Patil", "1234567890", "1234567890", "abc@yopmail.com", "abcd@yopamil.com");
         CustomerAddress customerAddress = new CustomerAddress("1", "abc", "redwood", "towerC", "landmark", "123456", "India", "Maharashtra");
-        CustomerProduct customerProduct = new CustomerProduct(getTimeWithDaysAge(10), "15093795311189", "15093795311189", "15093795311189", getTimeWithDaysAge(10), 1, 1);
-        Problems problems = new Problems(1, "battery Issue");
+        CustomerProduct customerProduct = new CustomerProduct(getTimeWithDaysAge(10), "15093795311109", "15093795311109", "15093795311109", getTimeWithDaysAge(10),
+                Product.NEXUS_2.getCode(), Model.NEXUS_2_BLUE.getCode());
+        Problems problems = new Problems(Problem.SMARTPHONE_IS_RUNNING_SLOW.getCode(), "battery Issue");
         List<Problems> problemList = new ArrayList<Problems>();
         problemList.add(problems);
 
-        CreateJobPayload createJobPayload = new CreateJobPayload(0, 2, 1, 1, customer, customerAddress, customerProduct, problemList);
+        CreateJobPayload createJobPayload = new CreateJobPayload(ServiceLocation.SERVICE_LOCATION_A.getCode(), PlatformID.FRONT_DESK.getCode(), WarrentyStatus.IN_WAARENTY.getCode(),
+                OEM.GOOGLE.getCode(), customer, customerAddress, customerProduct, problemList);
 
         given()
                 .spec(requestSpecWithAuth(Role.FD, createJobPayload))
