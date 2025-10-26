@@ -2,8 +2,10 @@ package com.api.test;
 
 import com.api.requestModel.UserCredentials;
 
-import com.api.utils.SpecUtil;
-import io.restassured.module.jsv.JsonSchemaValidator;
+import static com.api.utils.SpecUtil.*;
+import static io.restassured.module.jsv.JsonSchemaValidator.*;
+
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import static org.hamcrest.Matchers.*;
@@ -12,37 +14,43 @@ import static io.restassured.RestAssured.*;
 
 public class LogInAPITest {
 
-    @Test
+    private UserCredentials userCredentials;
+
+    @BeforeMethod(description = "Create the Payload for the login API")
+    public void setup() {
+        userCredentials = new UserCredentials("iamfd", "password");
+    }
+
+    @Test(description = "Verify if the login API is working", groups = {"api", "regression", "smoke"})
     public void loginAPITest() {
 
-        UserCredentials userCredentials = new UserCredentials("iamfd","password");
 
         given()
 //                .baseUri(getProperty("BASE_URI"))
 //                .and()
 //                .contentType(JSON)
 //                .accept(ANY)
-                .spec(SpecUtil.requestSpec(userCredentials))
+                .spec(requestSpec(userCredentials))
                 .and()
-       //         .body(userCredentials)
+                //         .body(userCredentials)
 //                .log().uri()
 //                .log().method()
 //                .log().headers()
 //                .log().body()
-        .when()
+                .when()
                 .post("login")
-        .then()
+                .then()
 //                .log().all()
 //                .statusCode(200)
 //                .and()
 //                .time(lessThan(4000l))
 //                .and()
-                .spec(SpecUtil.responseSpec_OK())
+                .spec(responseSpec_OK())
                 .body("message", equalTo("Success"))
                 .and()
-                .body("data.token",notNullValue())
+                .body("data.token", notNullValue())
                 .log().body()
                 .and()
-                .body(JsonSchemaValidator.matchesJsonSchemaInClasspath("response-schema/LoginResponseSchema.json"));
+                .body(matchesJsonSchemaInClasspath("response-schema/LoginResponseSchema.json"));
     }
 }

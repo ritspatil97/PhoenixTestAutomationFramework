@@ -2,12 +2,15 @@ package com.api.test;
 
 import com.api.constant.*;
 import com.api.requestModel.*;
+
 import static com.api.utils.DateTimeUtility.*;
 import static com.api.utils.SpecUtil.*;
 import static io.restassured.RestAssured.*;
 
 import static io.restassured.module.jsv.JsonSchemaValidator.*;
 import static org.hamcrest.Matchers.*;
+
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
@@ -15,9 +18,10 @@ import java.util.List;
 
 public class CreateJobAPITest {
 
-    @Test
-    public void createJobAPiTest() {
+    CreateJobPayload createJobPayload;
 
+    @BeforeMethod(description = "creating create job API request Payload")
+    public void setup() {
         Customer customer = new Customer("Rushi", "Patil", "1234567890", "1234567890", "abc@yopmail.com", "abcd@yopamil.com");
         CustomerAddress customerAddress = new CustomerAddress("1", "abc", "redwood", "towerC", "landmark", "123456", "India", "Maharashtra");
         CustomerProduct customerProduct = new CustomerProduct(getTimeWithDaysAge(10), "15093795311109", "15093795311109", "15093795311109", getTimeWithDaysAge(10),
@@ -26,8 +30,13 @@ public class CreateJobAPITest {
         List<Problems> problemList = new ArrayList<Problems>();
         problemList.add(problems);
 
-        CreateJobPayload createJobPayload = new CreateJobPayload(ServiceLocation.SERVICE_LOCATION_A.getCode(), PlatformID.FRONT_DESK.getCode(), WarrentyStatus.IN_WAARENTY.getCode(),
+        createJobPayload = new CreateJobPayload(ServiceLocation.SERVICE_LOCATION_A.getCode(), PlatformID.FRONT_DESK.getCode(), WarrentyStatus.IN_WAARENTY.getCode(),
                 OEM.GOOGLE.getCode(), customer, customerAddress, customerProduct, problemList);
+
+    }
+
+    @Test(description = "Verify if the Create Job API is working", groups = {"api", "regression", "smoke"})
+    public void createJobAPiTest() {
 
         given()
                 .spec(requestSpecWithAuth(Role.FD, createJobPayload))
@@ -37,7 +46,7 @@ public class CreateJobAPITest {
                 .spec(responseSpec_OK())
                 .body(matchesJsonSchemaInClasspath("response-schema/CreateJobAPIResponseSchema.json"))
                 .body("message", equalTo("Job created successfully. "))
-                .body("data.mst_service_location_id",equalTo(1))
-                .body("data.job_number",startsWith("JOB_"));
+                .body("data.mst_service_location_id", equalTo(1))
+                .body("data.job_number", startsWith("JOB_"));
     }
 }
