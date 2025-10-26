@@ -15,7 +15,7 @@ import static com.api.utils.ConfigManager.*;
 public class SpecUtil {
 
     /// ---------     for Get--Delete request
-    public static RequestSpecification requestSpec(){
+    public static RequestSpecification requestSpec() {
         // To take care of the common request sections (methods)
         RequestSpecification requestSpecification = new RequestSpecBuilder()
                 .setBaseUri(getProperty("BASE_URI"))
@@ -30,8 +30,8 @@ public class SpecUtil {
     }
 
     /// ---------  for POST - PUT - PATCH {Body} request
-    ///public static RequestSpecification requestSpec(UserCredentials userCredentials){
-     public static RequestSpecification requestSpec(Object payload){
+    /// public static RequestSpecification requestSpec(UserCredentials userCredentials){
+    public static RequestSpecification requestSpec(Object payload) {
         // To take care of the common request sections (methods)
         RequestSpecification requestSpecification = new RequestSpecBuilder()
                 .setBaseUri(getProperty("BASE_URI"))
@@ -46,12 +46,12 @@ public class SpecUtil {
         return requestSpecification;
     }
 
-    public static RequestSpecification requestSpecWithAuth(Role role){
+    public static RequestSpecification requestSpecWithAuth(Role role) {
         RequestSpecification requestSpecification = new RequestSpecBuilder()
                 .setBaseUri(getProperty("BASE_URI"))
                 .setContentType(ContentType.JSON)
                 .setAccept(ContentType.JSON)
-                .addHeader("Authorization",AuthTokenProvider.getToken(role))
+                .addHeader("Authorization", AuthTokenProvider.getToken(role))
                 .log(LogDetail.URI)
                 .log(LogDetail.METHOD)
                 .log(LogDetail.HEADERS)
@@ -60,7 +60,7 @@ public class SpecUtil {
         return requestSpecification;
     }
 
-    public static ResponseSpecification responseSpec_OK(){
+    public static ResponseSpecification responseSpec_OK() {
         ResponseSpecification responseSpecification = new ResponseSpecBuilder()
                 .expectContentType(ContentType.JSON)
                 .expectStatusCode(200)
@@ -70,7 +70,7 @@ public class SpecUtil {
         return responseSpecification;
     }
 
-    public static ResponseSpecification responseSpec_JSON(int statusCode){
+    public static ResponseSpecification responseSpec_JSON(int statusCode) {
         ResponseSpecification responseSpecification = new ResponseSpecBuilder()
                 .expectContentType(ContentType.JSON)
                 .expectStatusCode(statusCode)
@@ -79,12 +79,28 @@ public class SpecUtil {
                 .build();
         return responseSpecification;
     }
-    public static ResponseSpecification responseSpec_TEXT(int statusCode){
+
+    public static ResponseSpecification responseSpec_TEXT(int statusCode) {
         ResponseSpecification responseSpecification = new ResponseSpecBuilder()
                 .expectStatusCode(statusCode)
                 .expectResponseTime(Matchers.lessThan(3000l))
                 .log(LogDetail.ALL)
                 .build();
         return responseSpecification;
+    }
+
+    public static RequestSpecification requestSpecWithAuth(Role role, Object Payload) {
+        RequestSpecification requestSpecification = new RequestSpecBuilder()
+                .setBaseUri(getProperty("BASE_URI"))
+                .setContentType(ContentType.JSON)
+                .setAccept(ContentType.JSON)
+                .setBody(Payload)
+                .addHeader("Authorization", AuthTokenProvider.getToken(role))
+                .log(LogDetail.URI)
+                .log(LogDetail.METHOD)
+                .log(LogDetail.HEADERS)
+                .log(LogDetail.BODY)
+                .build();
+        return requestSpecification;
     }
 }
