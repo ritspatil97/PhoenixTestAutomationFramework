@@ -3,7 +3,7 @@ package com.api.utils;
 import static com.api.constant.Role.*;
 
 import com.api.constant.Role;
-import com.api.pojo.UserCredentials;
+import com.api.requestModel.UserCredentials;
 
 import static org.hamcrest.Matchers.*;
 

@@ -1,6 +1,5 @@
-package com.api.pojo;
+package com.api.requestModel;
 
-import java.util.Arrays;
 import java.util.List;
 
 public record CreateJobPayload(
