@@ -11,16 +11,18 @@ import static io.restassured.http.ContentType.*;
 import static org.hamcrest.Matchers.*;
 
 import com.api.constant.Role;
-import com.api.utils.SpecUtil;
-import io.restassured.module.jsv.JsonSchemaValidator;
+
+import static com.api.utils.SpecUtil.*;
+import static io.restassured.module.jsv.JsonSchemaValidator.*;
+
 import org.testng.annotations.Test;
 
 public class MasterAPITest {
-    @Test
-    public void masterAPITest(){
+    @Test(description = "Verify the master API is correct response", groups = {"api", "regression", "smoke"})
+    public void masterAPITest() {
 
         /// Issue in the API - this is a post request but still don't have a body
-         given()
+        given()
 //                .baseUri(getProperty("BASE_URI"))
 //                .and()
 //                .header("Authorization", getToken(FD))
@@ -29,43 +31,45 @@ public class MasterAPITest {
 //                 .log().uri()
 //                 .log().headers()
 //                 .log().method()
-                 .spec(SpecUtil.requestSpecWithAuth(FD))
-         .when()
+                //                .spec(SpecUtil.requestSpecWithAuth(FD))
+                .spec(requestSpecWithAuth(FD))
+
+                .when()
                 .post("master")
-         .then()
+                .then()
 //                 .log().all()
 //                 .statusCode(200)
 //                 .time(lessThan(3000l))
-                 .spec(SpecUtil.responseSpec_OK())
-                 .body("message", equalTo("Success"))
-                 .body("$",hasKey("message"))
-                 .body("$",hasKey("data"))
-                 .body("data", notNullValue())
-                 .body("data",hasKey("mst_oem"))
-                 .body("data",hasKey("mst_model"))
-                 .body("data.mst_oem.size()",greaterThan(1))   ///  size of JSON array with matchers
-                 .body("data.mst_model.size()",greaterThan(0))
-                 .body("data.mst_oem.id",everyItem(notNullValue()))
-                 .body("data.mst_oem.name",everyItem(notNullValue()))
-                 .body(JsonSchemaValidator.matchesJsonSchemaInClasspath("response-schema/MasterAPIResponseSchema.json"));
+                .spec(responseSpec_OK())
+                .body("message", equalTo("Success"))
+                .body("$", hasKey("message"))
+                .body("$", hasKey("data"))
+                .body("data", notNullValue())
+                .body("data", hasKey("mst_oem"))
+                .body("data", hasKey("mst_model"))
+                .body("data.mst_oem.size()", greaterThan(1))   ///  size of JSON array with matchers
+                .body("data.mst_model.size()", greaterThan(0))
+                .body("data.mst_oem.id", everyItem(notNullValue()))
+                .body("data.mst_oem.name", everyItem(notNullValue()))
+                .body(matchesJsonSchemaInClasspath("response-schema/MasterAPIResponseSchema.json"));
 
     }
 
-    @Test
-    public void invalidTokenMasterAPITest(){
+    @Test(description = "Verify the master API is correct response for Invalid token", groups = {"api", "negative", "regression", "smoke"})
+    public void invalidTokenMasterAPITest() {
         given()
 //                .baseUri(getProperty("BASE_URI"))
 //                .header("Authorization","")
 //                .and()
 //                .contentType("")
 //                .and()
-                .spec(SpecUtil.requestSpec())
-        .when()
+                .spec(requestSpec())
+                .when()
                 .post("master")
                 .then()
 //                .log().all()
 //                .statusCode(401)
 //                .time(lessThan(1000l));
-                .spec(SpecUtil.responseSpec_TEXT(401));
+                .spec(responseSpec_TEXT(401));
     }
 }
