@@ -1,12 +1,10 @@
 package com.api.test;
 
-import com.api.pojo.UserCredentials;
+import com.api.requestModel.UserCredentials;
 
 import com.api.utils.SpecUtil;
 import io.restassured.module.jsv.JsonSchemaValidator;
 import org.testng.annotations.Test;
-
-import java.io.IOException;
 
 import static org.hamcrest.Matchers.*;
 
